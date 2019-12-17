@@ -155,6 +155,7 @@ class CategorieRepository extends base
 		return -1;
 	}
 
+/*
 	public static function GetNbPhotoByCategorie($Categorieid)
 	{
 		$toReturn = array();
@@ -255,7 +256,7 @@ class CategorieRepository extends base
 			}
 		}
 		return -1;
-	}
+	}*/
 
 
 }
