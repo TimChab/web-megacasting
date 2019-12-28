@@ -1,18 +1,18 @@
 <?php
-require_once __DIR__.'/../Classes/Classes.Categorie.php';
+require_once __DIR__.'/../Classes/Classes.Entreprise.php';
 require_once __DIR__.'/../../Config/base.php';
 require_once __DIR__.'/../../Helpers/encryption.php';
 
 
-class CategorieRepository extends base
+class EntrepriseRepository extends base
 {
 	#region BASE CRUD (Create Read Update Delete)
-	public static function GetCategorie($id)
+	public static function GetEntreprise($id)
 	{
-		return CategorieRepository::GetCategories(array($id));
+		return EntrepriseRepository::GetEntreprises(array($id));
 	}
 
-	public static function GetCategories($ids)
+	public static function GetEntreprises($ids)
 	{
 		$toReturn = array();
 
@@ -22,7 +22,7 @@ class CategorieRepository extends base
 			$conn = parent::CreateConnexion();
 
 			//Instanciation de la requête
-			$request = $conn->prepare("SELECT Identifiant, Libelle FROM Categories WHERE Identifiant = :Identifiant");
+			$request = $conn->prepare("SELECT Identifiant, Libelle FROM Entreprise WHERE Identifiant = :Identifiant");
 
 			//Mappage des champs variables
 			$request->bindValue('Identifiant', $id, PDO::PARAM_INT);
@@ -36,7 +36,7 @@ class CategorieRepository extends base
 			//Récupération
 			foreach ($results as $result)
 			{
-				$item = new Categorie();
+				$item = new Entreprise();
 				$item->Identifiant = $result['Identifiant'];
 				$item->Libelle = $result['Libelle'];
 
@@ -46,7 +46,7 @@ class CategorieRepository extends base
 		return $toReturn;
 	}
 
-	public static function GetAllCategories()
+	public static function GetAllEntreprises()
 	{
 		$toReturn = array();
 
@@ -54,7 +54,7 @@ class CategorieRepository extends base
 		$conn = parent::CreateConnexion();
 
 		//Instanciation de la requête
-		$request = $conn->prepare("SELECT Identifiant, Libelle FROM Categories");
+		$request = $conn->prepare("SELECT Identifiant, Libelle FROM Entreprise");
 
 		//Mappage des champs variables
 		//Pas de champs variables
@@ -68,29 +68,34 @@ class CategorieRepository extends base
 		//Récupération
 		foreach ($results as $result)
 		{
-			$item = new Categorie();
+			$item = new Entreprise();
 
 			$item->Identifiant = $result['Identifiant'];
 			$item->Libelle = $result['Libelle'];
+			$item->Telephone = $result['Telephone'];
+			$item->Email = $result['Email'];
+			$item->Siret = $result['Siret'];
+			$item->Url = $result['Url'];
+
 
 			array_push($toReturn, $item);
 		}
 		return $toReturn;
 	}
 
-	public static function SetCategorie($Categorie)
+	public static function SetEntreprise($Entreprise)
 	{
 		//Création de la co
 		$conn = parent::CreateConnexion();
 
-		if ($Categorie->Identifiant == 0)
+		if ($Entreprise->Identifiant == 0)
 		{
 			//INSERT
 			//Instanciation de la requête
-			$request = $conn->prepare("INSERT INTO Categories(Libelle) VALUES (:Libelle)");
+			$request = $conn->prepare("INSERT INTO Entreprises(Libelle) VALUES (:Libelle)");
 
 			//Mappage des champs variables
-			$request->bindValue('Libelle', $Categorie->Libelle, PDO::PARAM_STR);
+			$request->bindValue('Libelle', $Entreprise->Libelle, PDO::PARAM_STR);
 
 			if ($request->execute())
 			{
@@ -101,11 +106,11 @@ class CategorieRepository extends base
 		{
 			//UPDATE
 			//Instanciation de la requête
-			$request = $conn->prepare("UPDATE Categories SET Libelle = :Libelle WHERE Identifiant = :Identifiant");
+			$request = $conn->prepare("UPDATE Entreprises SET Libelle = :Libelle WHERE Identifiant = :Identifiant");
 
 			//Mappage des champs variables
-			$request->bindValue('Identifiant', $Categorie->Identifiant, PDO::PARAM_INT);
-			$request->bindValue('Libelle', $Categorie->Libelle, PDO::PARAM_STR);
+			$request->bindValue('Identifiant', $Entreprise->Identifiant, PDO::PARAM_INT);
+			$request->bindValue('Libelle', $Entreprise->Libelle, PDO::PARAM_STR);
 
 			if ($request->execute())
 			{
@@ -115,33 +120,33 @@ class CategorieRepository extends base
 		return -1;
 	}
 
-	public static function DeleteCategorie($Categorie)
+	public static function DeleteEntreprise($Entreprise)
 	{
-		if ($Categorie->Identifiant == 0)
+		if ($Entreprise->Identifiant == 0)
 		{
 			return 0;
 		}
 		else
 		{
-			return DeleteCategorieById($Categorie->Identifiant);
+			return DeleteEntrepriseById($Entreprise->Identifiant);
 		}
 		return -1;
 	}
 
 
 
-	public static function DeleteCategorieById($Categorieid)
+	public static function DeleteEntrepriseById($Entrepriseid)
 	{
 		//Création de la co
 		$conn = parent::CreateConnexion();
 
-		$categoriesForId = CategorieRepository::GetCategorie($Categorieid);
+		$EntreprisesForId = EntrepriseRepository::GetEntreprise($Entrepriseid);
 
-		if (count($categoriesForId) == 1)
+		if (count($EntreprisesForId) == 1)
 		{
-			$request = $conn->prepare("DELETE FROM Categories WHERE Identifiant = :Identifiant");
+			$request = $conn->prepare("DELETE FROM Entreprises WHERE Identifiant = :Identifiant");
 
-			$request->bindValue('Identifiant', $Categorieid, PDO::PARAM_INT);
+			$request->bindValue('Identifiant', $Entrepriseid, PDO::PARAM_INT);
 
 			if ($request->execute())
 			{
@@ -150,13 +155,13 @@ class CategorieRepository extends base
 		}
 		else
 		{
-			return count($categoriesForId);
+			return count($EntreprisesForId);
 		}
 		return -1;
 	}
 
 /*
-	public static function GetNbPhotoByCategorie($Categorieid)
+	public static function GetNbPhotoByEntreprise($Entrepriseid)
 	{
 		$toReturn = array();
 
@@ -164,10 +169,10 @@ class CategorieRepository extends base
 		$conn = parent::CreateConnexion();
 
 		//Instanciation de la requête
-		$request = $conn->prepare("SELECT COUNT(Photos.Identifiant) as 'count' FROM Photos INNER JOIN Categories ON Categories.Identifiant = Photos.Categorie WHERE Categories.Identifiant = :Categorieid");
+		$request = $conn->prepare("SELECT COUNT(Photos.Identifiant) as 'count' FROM Photos INNER JOIN Entreprises ON Entreprises.Identifiant = Photos.Entreprise WHERE Entreprises.Identifiant = :Entrepriseid");
 
 		//Mappage des champs variables
-		$request->bindValue('Categorieid', $Categorieid, PDO::PARAM_INT);
+		$request->bindValue('Entrepriseid', $Entrepriseid, PDO::PARAM_INT);
 
 		//Execution
 		$count = $request->execute();
@@ -185,7 +190,7 @@ class CategorieRepository extends base
 
 	}
 
-	public static function GetCategorieBySite($SiteId)
+	public static function GetEntrepriseBySite($SiteId)
 	{
 		$toReturn = array();
 
@@ -193,7 +198,7 @@ class CategorieRepository extends base
 		$conn = parent::CreateConnexion();
 
 		//Instanciation de la requête
-		$request = $conn->prepare("SELECT Identifiant, Libelle FROM Categories WHERE Site = :SiteId");
+		$request = $conn->prepare("SELECT Identifiant, Libelle FROM Entreprises WHERE Site = :SiteId");
 
 		//Mappage des champs variables
 		$request->bindValue('SiteId', $SiteId, PDO::PARAM_INT);
@@ -208,7 +213,7 @@ class CategorieRepository extends base
 		foreach ($results as $result)
 		{
 
-			$item = new Categorie();
+			$item = new Entreprise();
 
 			$item->Identifiant = $result['Identifiant'];
 			$item->Libelle = $result['Libelle'];
@@ -219,19 +224,19 @@ class CategorieRepository extends base
 		return $toReturn;
 	}
 
-	public static function SetCategorieWithSite($Categorie, $Site)
+	public static function SetEntrepriseWithSite($Entreprise, $Site)
 	{
 		//Création de la co
 		$conn = parent::CreateConnexion();
 
-		if ($Categorie->Identifiant == 0)
+		if ($Entreprise->Identifiant == 0)
 		{
 			//INSERT
 			//Instanciation de la requête
-			$request = $conn->prepare("INSERT INTO Categories(Libelle, Site) VALUES (:Libelle, :Site)");
+			$request = $conn->prepare("INSERT INTO Entreprises(Libelle, Site) VALUES (:Libelle, :Site)");
 
 			//Mappage des champs variables
-			$request->bindValue('Libelle', $Categorie->Libelle, PDO::PARAM_STR);
+			$request->bindValue('Libelle', $Entreprise->Libelle, PDO::PARAM_STR);
 			$request->bindValue('Site', $Site, PDO::PARAM_STR);
 
 			if ($request->execute())
@@ -243,11 +248,11 @@ class CategorieRepository extends base
 		{
 			//UPDATE
 			//Instanciation de la requête
-			$request = $conn->prepare("UPDATE Categories SET Libelle = :Libelle, Site = :Site WHERE Identifiant = :Identifiant");
+			$request = $conn->prepare("UPDATE Entreprises SET Libelle = :Libelle, Site = :Site WHERE Identifiant = :Identifiant");
 
 			//Mappage des champs variables
-			$request->bindValue('Identifiant', $Categorie->Identifiant, PDO::PARAM_INT);
-			$request->bindValue('Libelle', $Categorie->Libelle, PDO::PARAM_STR);
+			$request->bindValue('Identifiant', $Entreprise->Identifiant, PDO::PARAM_INT);
+			$request->bindValue('Libelle', $Entreprise->Libelle, PDO::PARAM_STR);
 			$request->bindValue('Site', $Site, PDO::PARAM_STR);
 
 			if ($request->execute())
