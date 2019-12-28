@@ -12,6 +12,7 @@ class Base
 
 		if(substr($url, 0, $length) == "test" || substr($url, 0, $lengthLocal) == "localhost")
 		{
+
 		 	$PARAM_DBNAME = config::$PARAM_DBNAME_TEST;
 
 		 	$PARAM_HOST = config::$PARAM_HOST_TEST;
@@ -22,7 +23,8 @@ class Base
 
 		 	try
 			{
-				return new PDO("sqlsrv:server=".$PARAM_HOST.";database=".$PARAM_DBNAME."", $PARAM_USER, $PARAM_PWD);
+				//return new PDO("sqlsrv:server=".$PARAM_HOST.";database=".$PARAM_DBNAME."", $PARAM_USER, $PARAM_PWD);
+				return new PDO("sqlsrv:server=localhost;database=MegaProd", "MegaProd_User", "Not24get");
 			}
 
 			catch ( PDOException $e )

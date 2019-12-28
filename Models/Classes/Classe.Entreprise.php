@@ -12,7 +12,7 @@ class Entreprise
 
     public function __construct()
     {
-      $this->Identifiant = 0
+      $this->Identifiant = 0;
 
     }
 }

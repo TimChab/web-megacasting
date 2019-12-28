@@ -1,5 +1,5 @@
 <?php
-require_once __DIR__.'/../Classes/Classes.Entreprise.php';
+require_once __DIR__.'/../Classes/Classe.Entreprise.php';
 require_once __DIR__.'/../../Config/base.php';
 require_once __DIR__.'/../../Helpers/encryption.php';
 
