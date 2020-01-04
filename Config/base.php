@@ -24,7 +24,7 @@ class Base
 		 	try
 			{
 				//return new PDO("sqlsrv:server=".$PARAM_HOST.";database=".$PARAM_DBNAME."", $PARAM_USER, $PARAM_PWD);
-				return new PDO("sqlsrv:server=localhost;database=MegaProd", "MegaProd_User", "Not24get");
+				return new PDO("sqlsrv:server=localhost\\SQLEXPRESS01;database=MegaProd", "MegaProd_User", "Not24get");
 			}
 
 			catch ( PDOException $e )

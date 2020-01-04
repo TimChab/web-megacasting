@@ -54,7 +54,7 @@ class EntrepriseRepository extends base
 		$conn = parent::CreateConnexion();
 
 		//Instanciation de la requête
-		$request = $conn->prepare("SELECT Identifiant, Libelle FROM Entreprise");
+		$request = $conn->prepare("SELECT Identifiant, Libelle, Telephone, Email, Siret FROM Entreprise");
 
 		//Mappage des champs variables
 		//Pas de champs variables
@@ -75,7 +75,7 @@ class EntrepriseRepository extends base
 			$item->Telephone = $result['Telephone'];
 			$item->Email = $result['Email'];
 			$item->Siret = $result['Siret'];
-			$item->Url = $result['Url'];
+			//$item->Url = $result['Url'];
 
 
 			array_push($toReturn, $item);
