@@ -50,7 +50,7 @@ $AnnonceList = OffreRepository::GetAllOffres();
 											<div class="inner">
 												<h3>'. $Annonce->Intitule .'</h3>
 												<p>'.$Annonce->Description_Poste.'</p>
-												<a href="https://youtu.be/s6zR2T9vn2c" class="button fit" data-poptrox="youtube,800x400">Watch</a>
+												<a href="https://youtu.be/s6zR2T9vn2c" class="button fit" data-poptrox="youtube,800x400">Voir plus</a>
 											</div>
 										</div>
 
