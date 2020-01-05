@@ -56,8 +56,6 @@ $AnnonceList = OffreRepository::GetAllOffres();
 
 										';
 									}
-
-
 							?>
 
 <!--
