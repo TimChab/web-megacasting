@@ -1,7 +1,12 @@
 <?php
 
 require_once __DIR__.'/Models/Repositories/Repositories.Offre.php';
-$AnnonceList = OffreRepository::GetAllOffres();
+if (isset($_GET['search'])) {
+	$AnnonceList = OffreRepository::SearchOffre($_POST['SearchString']);
+} else {
+	$AnnonceList = OffreRepository::GetAllOffres();
+}
+
 ?>
 
 <!DOCTYPE HTML>
@@ -38,9 +43,9 @@ $AnnonceList = OffreRepository::GetAllOffres();
 			<!-- Main -->
 				<div id="main">
 					<div class="inner">
-						<form class="form" action="index.html" method="post">
+						<form class="form" action="/index.html?search=true" method="post">
 							<div class="form-group search-bar">
-								<input type="text" placeholder="Rechercher une offre"/>
+								<input type="text" name="SearchString" placeholder="Rechercher une offre"/>
 								<input type="submit" value="Rechercher"/>
 							</div>
 
@@ -54,7 +59,7 @@ $AnnonceList = OffreRepository::GetAllOffres();
 										echo '
 										<div class="box">
 											<div class="image fit"><img src="assets/images/pic01.jpg" alt="" /></div>
-											<div class="inner">
+											<div class="inner desc" >
 												<h3>'. $Annonce->Intitule .'</h3>
 												<p>'.$Annonce->Description_Poste.'</p>
 												<a href="https://youtu.be/s6zR2T9vn2c" class="button fit" data-poptrox="youtube,800x400">Voir plus</a>

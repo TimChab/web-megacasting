@@ -160,6 +160,44 @@ class OffreRepository extends base
 		return -1;
 	}
 
+
+	public static function SearchOffre($StringToSearch)
+	{
+		$toReturn = array();
+
+		//Création de la co
+		$conn = parent::CreateConnexion();
+
+		//Instanciation de la requête
+		$request = $conn->prepare("SELECT Identifiant, Intitule, Description_Poste, Description_Profil, Nombre_Poste FROM Offre WHERE ");
+
+		//Mappage des champs variables
+		//Pas de champs variables
+
+		//Execution
+		$count = $request->execute();
+
+		//Récupération des données dans une var
+		$results = $request->fetchAll();
+
+		//Récupération
+		foreach ($results as $result)
+		{
+			$item = new Offre();
+
+			$item->Identifiant = $result['Identifiant'];
+			$item->Intitule = $result['Intitule'];
+			$item->Description_Poste = $result['Description_Poste'];
+			$item->Description_Profil = $result['Description_Profil'];
+			$item->Nombre_Poste = $result['Nombre_Poste'];
+			//$item->Url = $result['Url'];
+
+
+			array_push($toReturn, $item);
+		}
+		return $toReturn;
+	}
+
 /*
 	public static function GetNbPhotoByOffre($Offreid)
 	{
