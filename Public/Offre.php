@@ -1,6 +1,6 @@
 <?php
 require_once __DIR__.'/Models/Repositories/Repositories.Offre.php';
-require_once __DIR__.'/Public/Footer.php';
+require_once __DIR__.'/Footer.php';
 
 if (isset($_GET['search'])) {
 	$AnnonceList = OffreRepository::SearchOffre($_POST['SearchString']);
@@ -11,6 +11,11 @@ if (isset($_GET['search'])) {
 ?>
 
 <!DOCTYPE HTML>
+<!--
+	Full Motion by TEMPLATED
+	templated.co @templatedco
+	Released for free under the Creative Commons Attribution 3.0 license (templated.co/license)
+-->
 <html>
 	<head>
 		<title>Mega Casting</title>
@@ -84,9 +89,7 @@ if (isset($_GET['search'])) {
 					</div>
 				</div>
 
-<?php
-echo $footer;
-?>
+<?php echo $footer;?>
 
 		<!-- Scripts -->
 			<script src="assets/js/jquery.min.js"></script>
@@ -98,10 +101,3 @@ echo $footer;
 
 	</body>
 </html>
-<style media="screen">
-	.search-bar {
-		display: inline-flex;
-		position: absolute;
-		right: 1%;
-	}
-</style>
