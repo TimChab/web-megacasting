@@ -43,18 +43,31 @@ if (isset($_GET['search'])) {
 			<!-- Main -->
 				<div id="main">
 					<div class="inner">
-						<form class="form" action="/index.html?search=true" method="post">
+						<form class="form" action="?search=true" method="post">
 							<div class="form-group search-bar">
 								<input type="text" name="SearchString" placeholder="Rechercher une offre"/>
 								<input type="submit" value="Rechercher"/>
 							</div>
-
+							<p style="display: block;">Il y a <?php echo count($AnnonceList);?> offre(s)</p>
 						</form>
+						<div class="">
+							<?php
+								if (isset($_GET['search'])) {
+									echo '	<p>
+														Résultat(s) de la recherche :
+													</p>';
+								}
 
+							?>
+						</div>
 					<!-- Boxes -->
 						<div class="thumbnails">
 
+
+
 							<?php
+
+
 									foreach ($AnnonceList as $key => $Annonce) {
 										echo '
 										<div class="box">

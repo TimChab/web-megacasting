@@ -169,10 +169,10 @@ class OffreRepository extends base
 		$conn = parent::CreateConnexion();
 
 		//Instanciation de la requête
-		$request = $conn->prepare("SELECT Identifiant, Intitule, Description_Poste, Description_Profil, Nombre_Poste FROM Offre WHERE ");
+		$request = $conn->prepare("SELECT Identifiant, Intitule, Description_Poste, Description_Profil, Nombre_Poste FROM Offre WHERE Description_Poste + Description_Profil + Intitule LIKE '%:StringToSearch%'");
 
 		//Mappage des champs variables
-		//Pas de champs variables
+		$request->bindValue('StringToSearch', $StringToSearch, PDO::PARAM_STR);
 
 		//Execution
 		$count = $request->execute();
