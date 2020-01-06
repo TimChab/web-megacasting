@@ -48,7 +48,7 @@ if (isset($_GET['search'])) {
 								<input type="text" name="SearchString" placeholder="Rechercher une offre"/>
 								<input type="submit" value="Rechercher"/>
 							</div>
-							<p style="display: block;">Il y a <?php echo count($AnnonceList);?> offre(s)</p>
+							<p style="display: block;">Il y a <?php echo count($AnnonceList);?> offre(s) <?php if(isset($_GET['search'])){ echo ' pour "'.$_POST['SearchString'].'"'; }?></p>
 						</form>
 						<div class="">
 							<?php
