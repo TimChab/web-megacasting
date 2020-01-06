@@ -22,7 +22,7 @@ class OffreRepository extends base
 			$conn = parent::CreateConnexion();
 
 			//Instanciation de la requête
-			$request = $conn->prepare("SELECT Identifiant, Intitule FROM Offre WHERE Identifiant = :Identifiant");
+			$request = $conn->prepare("SELECT Identifiant, Intitule, Date_Debut_Publication, Duree_Diffusion, Date_Debut_Contrat, Localisation, Description_Poste, Description_Profil, Nombre_Poste FROM Offre WHERE Identifiant = :Identifiant");
 
 			//Mappage des champs variables
 			$request->bindValue('Identifiant', $id, PDO::PARAM_INT);
@@ -39,6 +39,13 @@ class OffreRepository extends base
 				$item = new Offre();
 				$item->Identifiant = $result['Identifiant'];
 				$item->Intitule = $result['Intitule'];
+				$item->Date_Debut_Publication = $result['Date_Debut_Publication'];
+				$item->Duree_Diffusion = $result['Duree_Diffusion'];
+				$item->Date_Debut_Contrat = $result['Date_Debut_Contrat'];
+				$item->Localisation = $result['Localisation'];
+				$item->Description_Poste = $result['Description_Poste'];
+				$item->Description_Profil = $result['Description_Profil'];
+				$item->Nombre_Poste = $result['Nombre_Poste'];
 
 				array_push($toReturn, $item);
 			}
@@ -54,7 +61,7 @@ class OffreRepository extends base
 		$conn = parent::CreateConnexion();
 
 		//Instanciation de la requête
-		$request = $conn->prepare("SELECT Identifiant, Intitule, Description_Poste, Description_Profil, Nombre_Poste FROM Offre");
+		$request = $conn->prepare("SELECT Identifiant, Intitule, Date_Debut_Publication, Duree_Diffusion, Date_Debut_Contrat, Localisation, Description_Poste, Description_Profil, Nombre_Poste FROM Offre");
 
 		//Mappage des champs variables
 		//Pas de champs variables
@@ -72,6 +79,10 @@ class OffreRepository extends base
 
 			$item->Identifiant = $result['Identifiant'];
 			$item->Intitule = $result['Intitule'];
+			$item->Date_Debut_Publication = $result['Date_Debut_Publication'];
+			$item->Duree_Diffusion = $result['Duree_Diffusion'];
+			$item->Date_Debut_Contrat = $result['Date_Debut_Contrat'];
+			$item->Localisation = $result['Localisation'];
 			$item->Description_Poste = $result['Description_Poste'];
 			$item->Description_Profil = $result['Description_Profil'];
 			$item->Nombre_Poste = $result['Nombre_Poste'];
