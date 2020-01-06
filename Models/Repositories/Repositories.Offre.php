@@ -163,16 +163,18 @@ class OffreRepository extends base
 
 	public static function SearchOffre($StringToSearch)
 	{
+
+		$paramLIKE = "%".$StringToSearch."%";
 		$toReturn = array();
 
 		//Création de la co
 		$conn = parent::CreateConnexion();
 
 		//Instanciation de la requête
-		$request = $conn->prepare("SELECT Identifiant, Intitule, Description_Poste, Description_Profil, Nombre_Poste FROM Offre WHERE Description_Poste + Description_Profil + Intitule LIKE '%:StringToSearch%'");
+		$request = $conn->prepare("SELECT Identifiant, Intitule, Description_Poste, Description_Profil, Nombre_Poste FROM Offre WHERE Description_Poste + Description_Profil + Intitule LIKE :paramLIKE");
 
 		//Mappage des champs variables
-		$request->bindValue('StringToSearch', $StringToSearch, PDO::PARAM_STR);
+		$request->bindValue('paramLIKE', $paramLIKE, PDO::PARAM_STR);
 
 		//Execution
 		$count = $request->execute();
