@@ -53,6 +53,14 @@ class OffreRepository extends base
 		return $toReturn;
 	}
 
+	public static function CountOffre(){
+		$conn = parent::CreateConnexion();
+		$request = $conn->prepare("SELECT COUNT(Identifiant) as nbOffre FROM Offre");
+		$request->execute();
+		$result = $request->fetch(\PDO::FETCH_ASSOC);
+		return $result;
+	}
+
 	public static function GetAllOffres()
 	{
 		$toReturn = array();
@@ -60,8 +68,14 @@ class OffreRepository extends base
 		//Création de la co
 		$conn = parent::CreateConnexion();
 
+	//	$countOffre = CountOffre();
+		$nbParPage = 9;
+		$currentPage = 1;
+
+
 		//Instanciation de la requête
-		$request = $conn->prepare("SELECT Identifiant, Intitule, Date_Debut_Publication, Duree_Diffusion, Date_Debut_Contrat, Localisation, Description_Poste, Description_Profil, Nombre_Poste FROM Offre");
+		$request = $conn->prepare("SELECT Identifiant, Intitule, Date_Debut_Publication, Duree_Diffusion, Date_Debut_Contrat, Localisation, Description_Poste, Description_Profil, Nombre_Poste FROM Offre ORDER BY Identifiant
+  OFFSET ".(($currentPage-1)*$nbParPage)." ROWS FETCH NEXT ".$nbParPage." ROWS ONLY");
 
 		//Mappage des champs variables
 		//Pas de champs variables
@@ -210,6 +224,8 @@ class OffreRepository extends base
 		}
 		return $toReturn;
 	}
+
+
 
 /*
 	public static function GetNbPhotoByOffre($Offreid)

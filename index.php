@@ -8,6 +8,10 @@ if (isset($_GET['search'])) {
 	$AnnonceList = OffreRepository::GetAllOffres();
 }
 
+$nbOffre2 = OffreRepository::CountOffre();
+$nbOffre = $nbOffre2["nbOffre"];
+$nbElementParPage = 9;
+$nbPages =ceil($nbOffre/$nbElementParPage);
 ?>
 
 <!DOCTYPE HTML>
@@ -44,6 +48,7 @@ if (isset($_GET['search'])) {
 								<input type="text" name="SearchString" placeholder="Rechercher une offre"/>
 								<input type="submit" value="Rechercher"/>
 							</div>
+							<p style="display: block;">Il y aura <?php echo $nbPages; ?> pages</p>
 							<p style="display: block;">Il y a <?php echo count($AnnonceList);?> offre(s) <?php if(isset($_GET['search'])){ echo ' pour "'.$_POST['SearchString'].'"'; }?></p>
 						</form>
 						<div class="">
@@ -79,6 +84,11 @@ if (isset($_GET['search'])) {
 									}
 							?>
 
+						</div>
+
+						<div class="">
+							<a href="?page=1">début</a>
+							<a href="?page=<?php echo  $nbPages ?>">Fin</a>
 						</div>
 
 					</div>
