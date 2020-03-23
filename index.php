@@ -38,6 +38,9 @@ if (isset($_GET['search'])) {
 
 			<!-- Main -->
 				<div id="main">
+					<div class="form-group connexion" style="">
+						<a href="/Public/Login.php"><input type="button" value="Se connecter"/></a>
+					</div>
 					<div class="inner">
 						<form class="form" action="?search=true" method="post">
 							<div class="form-group search-bar">
