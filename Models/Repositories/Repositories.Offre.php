@@ -94,6 +94,52 @@ class OffreRepository extends base
 		return $toReturn;
 	}
 
+	public static function GetOffreByPage($nb_elem, $page)
+	{
+		$page = $page*10;
+		$toReturn = array();
+
+		//Création de la co
+		$conn = parent::CreateConnexion();
+
+		//Instanciation de la requête
+		$request = $conn->prepare("SELECT Identifiant, Intitule, Date_Debut_Publication, Duree_Diffusion, Date_Debut_Contrat, Localisation, Description_Poste, Description_Profil, Nombre_Poste FROM Offre ORDER BY Identifiant OFFSET :page ROWS FETCH NEXT :nb_elem ROWS ONLY");
+
+		//Mappage des champs variables
+		$request->bindValue('page', $page);
+		$request->bindValue('nb_elem', $nb_elem);
+
+		//Execution
+		$count = $request->execute();
+
+		//Récupération des données dans une var
+		$results = $request->fetchAll();
+var_dump($count);
+var_dump($results);
+var_dump( $conn->errorInfo());
+exit();
+		//Récupération
+		foreach ($results as $result)
+		{
+			$item = new Offre();
+
+			$item->Identifiant = $result['Identifiant'];
+			$item->Intitule = $result['Intitule'];
+			$item->Date_Debut_Publication = $result['Date_Debut_Publication'];
+			$item->Duree_Diffusion = $result['Duree_Diffusion'];
+			$item->Date_Debut_Contrat = $result['Date_Debut_Contrat'];
+			$item->Localisation = $result['Localisation'];
+			$item->Description_Poste = $result['Description_Poste'];
+			$item->Description_Profil = $result['Description_Profil'];
+			$item->Nombre_Poste = $result['Nombre_Poste'];
+			//$item->Url = $result['Url'];
+
+
+			array_push($toReturn, $item);
+		}
+		return $toReturn;
+	}
+
 	public static function SetOffre($Offre)
 	{
 		//Création de la co
@@ -211,8 +257,8 @@ class OffreRepository extends base
 		return $toReturn;
 	}
 
-/*
-	public static function GetNbPhotoByOffre($Offreid)
+
+	public static function GetNbOffre()
 	{
 		$toReturn = array();
 
@@ -220,10 +266,7 @@ class OffreRepository extends base
 		$conn = parent::CreateConnexion();
 
 		//Instanciation de la requête
-		$request = $conn->prepare("SELECT COUNT(Photos.Identifiant) as 'count' FROM Photos INNER JOIN Offres ON Offres.Identifiant = Photos.Offre WHERE Offres.Identifiant = :Offreid");
-
-		//Mappage des champs variables
-		$request->bindValue('Offreid', $Offreid, PDO::PARAM_INT);
+		$request = $conn->prepare("SELECT COUNT(Offre.Identifiant) as 'count' FROM Offre");
 
 		//Execution
 		$count = $request->execute();
@@ -240,6 +283,8 @@ class OffreRepository extends base
 		}
 
 	}
+
+	/*
 
 	public static function GetOffreBySite($SiteId)
 	{
